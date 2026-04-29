@@ -12,6 +12,7 @@ function show(name) {
   window.scrollTo(0, 0);
 }
 
+
 let toastTimer;
 function toast(msg) {
   const t = document.getElementById('toast');
