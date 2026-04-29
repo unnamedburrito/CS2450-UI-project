@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SENDY — Wireframe</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============== SIGN IN ============== -->
+<section class="screen active" data-screen="signin">
+  <h1>SENDY</h1>
+  <p class="muted">Sign In</p>
+  <hr>
+  <label>Email or username
+    <input type="text">
+  </label>
+  <label>Password
+    <input type="password">
+  </label>
+  <button class="btn-block" onclick="show('home');toast('Signed in')">Sign In</button>
+  <button class="btn-block" onclick="show('signup')">Create account</button>
+  <button class="btn-block" onclick="show('home');toast('Guest mode')">Continue as guest</button>
+  <p class="small"><a href="#">Forgot password?</a></p>
+</section>
+
+<!-- ============== SIGN UP ============== -->
+<section class="screen" data-screen="signup">
+  <div class="header">
+    <button onclick="show('signin')">Back</button>
+    <span class="title">Sign Up</span>
+  </div>
+  <label>Email <input type="email"></label>
+  <label>Username <input type="text"></label>
+  <p class="small muted">3–24 chars, lowercase, digits, underscores</p>
+  <label>Password <input type="password"></label>
+  <p class="small muted">≥ 8 chars, at least one letter and one digit</p>
+  <label>Confirm password <input type="password"></label>
+  <button class="btn-block" onclick="show('locationpicker');toast('Account created')">Create account</button>
+</section>
+
+<!-- ============== HOME ============== -->
+<section class="screen" data-screen="home">
+  <div class="header">
+    <span class="title">SENDY — Home</span>
+    <button onclick="show('search')">Search</button>
+  </div>
+
+  <div class="box" onclick="show('locationpicker')" style="cursor:pointer">
+    <p class="small">Current Gym (filter active)</p>
+    <h2 id="gymName">Gym name</h2>
+    <p class="small"><span id="routeCount">#</span> routes — tap to change</p>
+  </div>
+
+  <div class="chips">
+    <button class="chip active">All</button>
+    <button class="chip">Most Recent</button>
+    <button class="chip">Grade</button>
+    <button class="chip">Wall</button>
+    <button class="chip">Tags</button>
+  </div>
+
+  <div class="card" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>Grade</span>
+        <button onclick="event.stopPropagation();this.textContent=this.textContent==='Save'?'Saved':'Save'">Save</button>
+      </div>
+      <p class="small muted">★ rating · # tips · @username</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>Grade</span>
+        <button onclick="event.stopPropagation();this.textContent=this.textContent==='Save'?'Saved':'Save'">Save</button>
+      </div>
+      <p class="small muted">★ rating · # tips · @username</p>
+    </div>
+  </div>
+
+  <div class="card" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>Grade</span>
+        <button onclick="event.stopPropagation();this.textContent=this.textContent==='Save'?'Saved':'Save'">Save</button>
+      </div>
+      <p class="small muted">★ rating · # tips · @username</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== LOCATION PICKER ============== -->
+<section class="screen" data-screen="locationpicker">
+  <div class="header">
+    <button onclick="show('home')">Close</button>
+    <span class="title">Choose Gym</span>
+  </div>
+  <input type="search" placeholder="Search gyms by name or address">
+  <button class="btn-block" onclick="toast('Requesting location…')">Use my location</button>
+
+  <h3>Recent</h3>
+  <div class="list">
+    <div class="item" onclick="setGym('Gym name',0)">
+      <div class="grow"><strong>Gym name</strong><div class="small muted">[address] — [distance]</div></div>
+    </div>
+    <div class="item" onclick="setGym('Gym name',0)">
+      <div class="grow"><strong>Gym name</strong><div class="small muted">[address] — [distance]</div></div>
+    </div>
+    <div class="item" onclick="setGym('Gym name',0)">
+      <div class="grow"><strong>Gym name</strong><div class="small muted">[address] — [distance]</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ROUTE DETAIL ============== -->
+<section class="screen" data-screen="route">
+  <div class="header">
+    <button onclick="show('home')">Back</button>
+    <span class="title">Route</span>
+    <button onclick="toast('Saved')">Save</button>
+    <button onclick="toast('Shared')">Share</button>
+  </div>
+
+  <div class="img img-lg">[ photo carousel ]</div>
+
+  <h2>Route name</h2>
+  <p class="small">Grade · Gym name · posted [time] ago</p>
+  <p class="small">★ rating · # sends · # tips</p>
+
+  <hr>
+  <p><strong>@username</strong> <span class="muted small">posted this beta</span></p>
+
+  <h3>Notes</h3>
+  <p>[ Author notes about the route — beta, sequence, conditions. ]</p>
+
+  <h3>Tips (#)</h3>
+  <div class="list">
+    <div class="item">
+      <div class="grow">
+        <strong>@username</strong> <span class="muted small">[time]</span>
+        <p class="small">[ Tip text. ]</p>
+      </div>
+    </div>
+    <div class="item">
+      <div class="grow">
+        <strong>@username</strong> <span class="muted small">[time]</span>
+        <p class="small">[ Tip text. ]</p>
+      </div>
+    </div>
+  </div>
+
+  <label>Add a tip
+    <textarea maxlength="500" placeholder="Share your beta…"></textarea>
+  </label>
+  <button>Post tip</button>
+
+  <div class="pinned">
+    <button class="btn-block" onclick="startSession()">▶ Start Climb Session</button>
+  </div>
+</section>
+
+<!-- ============== CLIMB SESSION ============== -->
+<section class="screen" data-screen="session">
+  <div class="header">
+    <button onclick="endSessionPrompt()">Close</button>
+    <span class="title">Session</span>
+  </div>
+
+  <p class="live" style="text-align:center">● LIVE — in progress</p>
+  <div class="timer" id="timer">00:00:00</div>
+  <p style="text-align:center" class="small">Route name · Grade · Gym name</p>
+
+  <div class="stat-grid">
+    <div class="box"><div class="num" id="attempts">0</div><div class="small">Attempts</div></div>
+    <div class="box"><div class="num" id="sends">0</div><div class="small">Sends</div></div>
+    <div class="box"><div class="num" id="best">—</div><div class="small">Best try</div></div>
+  </div>
+
+  <div class="row">
+    <button onclick="logAttempt()">+ Log attempt</button>
+    <button onclick="markSend()">✓ Mark send</button>
+  </div>
+
+  <label>Session notes
+    <textarea placeholder="Beta, conditions…"></textarea>
+  </label>
+  <p class="small muted">Autosaves every 5 seconds</p>
+
+  <div class="pinned">
+    <button class="btn-block" onclick="endSessionPrompt()">End session</button>
+  </div>
+</section>
+
+<!-- ============== CREATE POST ============== -->
+<section class="screen" data-screen="create">
+  <div class="header">
+    <button onclick="cancelCreate()">Cancel</button>
+    <span class="title">New Route</span>
+    <button id="postBtn" disabled onclick="show('confirm')">Post</button>
+  </div>
+
+  <h3>Photos (1–6 required)</h3>
+  <div class="photo-grid" id="photoGrid">
+    <button class="photo-add" type="button" onclick="addPhoto()">📷 Add photo</button>
+  </div>
+
+  <label>Route name
+    <input id="rname" type="text" maxlength="60" oninput="validateCreate()">
+  </label>
+
+  <h3>Difficulty (select one)</h3>
+  <div class="grade-grid" id="gradeGrid"></div>
+
+  <label>Wall (optional)
+    <select>
+      <option>Choose…</option>
+      <option>Cave</option><option>Slab</option>
+      <option>Overhang</option><option>Vertical</option>
+    </select>
+  </label>
+
+  <label>Tags (up to 5)
+    <input type="text" placeholder="crimpy, dyno, sloper">
+  </label>
+
+  <label>Notes
+    <textarea maxlength="2000"></textarea>
+  </label>
+</section>
+
+<!-- ============== POST CONFIRMATION ============== -->
+<section class="screen" data-screen="confirm">
+  <div style="text-align:center;padding:24px 0">
+    <h1>✓ Posted!</h1>
+    <p>Your route is live in the gym feed.</p>
+  </div>
+  <div class="card">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <strong>Route name</strong>
+      <p class="small muted">Grade · Gym name · 0 tips</p>
+    </div>
+  </div>
+  <div class="row">
+    <button onclick="show('home')">Back to feed</button>
+    <button onclick="show('route')">View post</button>
+  </div>
+</section>
+
+<!-- ============== SEARCH ============== -->
+<section class="screen" data-screen="search">
+  <div class="header">
+    <span class="title">Search</span>
+  </div>
+  <input type="search" placeholder="Routes, gyms, tags…">
+  <div class="chips">
+    <button class="chip active">All</button>
+    <button class="chip">Routes</button>
+    <button class="chip">Gyms</button>
+    <button class="chip">Tags</button>
+  </div>
+  <h3>Recent</h3>
+  <div class="list">
+    <div class="item">[ recent search ]</div>
+    <div class="item">[ recent search ]</div>
+    <div class="item">[ recent search ]</div>
+  </div>
+  <h3>Trending</h3>
+  <div class="list">
+    <div class="item" onclick="show('route')"><div class="grow"><strong>Route name</strong><div class="small muted">Grade · Gym name</div></div></div>
+    <div class="item" onclick="show('route')"><div class="grow"><strong>Route name</strong><div class="small muted">Grade · Gym name</div></div></div>
+  </div>
+</section>
+
+<!-- ============== SAVED ============== -->
+<section class="screen" data-screen="saved">
+  <div class="header"><span class="title">Saved</span></div>
+  <div class="card" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <strong>Route name</strong> — Grade
+      <p class="small muted">★ rating · # tips · @username</p>
+    </div>
+  </div>
+  <div class="card" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <strong>Route name</strong> — Grade
+      <p class="small muted">★ rating · # tips · @username</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PROFILE ============== -->
+<section class="screen" data-screen="profile">
+  <div class="header">
+    <span class="title">Profile</span>
+    <button>Settings</button>
+  </div>
+  <div class="box">
+    <h2>Last name, First name</h2>
+    <p class="small">@guest · Gym name</p>
+    <p class="small"># sessions · # sends · # posts</p>
+  </div>
+
+  <div class="chips">
+    <button class="chip active">Sessions</button>
+    <button class="chip">Posts</button>
+    <button class="chip">Saved</button>
+  </div>
+
+  <div class="list">
+    <div class="item">
+      <div class="grow">
+        <strong>Route name · Grade</strong> [SENT]
+        <div class="small muted">[date] · # attempts · # sends · [duration]</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="grow">
+        <strong>Route name · Grade</strong>
+        <div class="small muted">[date] · # attempts · # sends · [duration]</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="grow">
+        <strong>Route name · Grade</strong> [SENT]
+        <div class="small muted">[date] · # attempts · # sends · [duration]</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Tab bar -->
+<nav class="tabbar" id="tabbar">
+  <button data-tab="home" class="active" onclick="show('home')">Home</button>
+  <button data-tab="search" onclick="show('search')">Search</button>
+  <button onclick="show('create')">+ Create</button>
+  <button data-tab="saved" onclick="show('saved')">Saved</button>
+  <button data-tab="profile" onclick="show('profile')">Profile</button>
+</nav>
+
+<script src="app.js"></script>
+</body>
+</html>
