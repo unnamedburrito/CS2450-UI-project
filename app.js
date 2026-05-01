@@ -26,12 +26,10 @@ function toast(msg) {
 
 function setGym(name) {
   document.getElementById('gymName').textContent = name;
-  filterHomeRoutes();
+  applyHomeFilters();
   show('home');
   toast('Switched to ' + name);
 }
-
-function filterHomeRoutes() { applyHomeFilters(); }
 
 function applyHomeFilters() {
   const gym = document.getElementById('gymName').textContent;
