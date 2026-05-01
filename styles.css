@@ -101,6 +101,37 @@ label { display: block; font-size: 13px; margin-top: 8px; }
   white-space: nowrap;
 }
 .chip.active { background: #000; color: #fff; }
+.chip.has-value { background: #000; color: #fff; }
+
+/* Filter dropdown panel */
+.filters { position: relative; }
+.filter-panel {
+  border: 1px solid #000;
+  background: #fff;
+  padding: 10px;
+  margin: 4px 0 8px;
+}
+.filter-panel[hidden] { display: none; }
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 8px;
+}
+.filter-options .opt {
+  padding: 6px 10px;
+  border: 1px solid #000;
+  background: #fff;
+  font-size: 14px;
+  min-height: 0;
+  cursor: pointer;
+}
+.filter-options .opt.active { background: #000; color: #fff; }
+.filter-options.grade-opts {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
 
 /* Route card */
 .card { border: 1px solid #000; margin: 8px 0; }
@@ -113,7 +144,7 @@ label { display: block; font-size: 13px; margin-top: 8px; }
   border-top: 1px solid #000;
   background: #fff;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 .tabbar button {
   border: 0;
@@ -134,18 +165,6 @@ label { display: block; font-size: 13px; margin-top: 8px; }
   background: #fff;
   padding: 8px;
 }
-
-/* Live session indicator */
-.live { font-weight: bold; }
-.timer {
-  font-family: monospace;
-  font-size: 36px;
-  text-align: center;
-  margin: 12px 0;
-}
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-.stat-grid .box { text-align: center; margin: 0; }
-.stat-grid .num { font-size: 22px; font-weight: bold; }
 
 /* Photo grid */
 .photo-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
@@ -186,7 +205,7 @@ label { display: block; font-size: 13px; margin-top: 8px; }
 }
 .list .item:last-child { border-bottom: 0; }
 
-/* Toast */
+/* Toasts */
 .toast {
   position: fixed;
   bottom: 130px;

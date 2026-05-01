@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<!-- ============== SIGN IN ============== -->
+<!-- SIGN IN -->
 <section class="screen active" data-screen="signin">
   <h1>SENDY</h1>
   <p class="muted">Sign In</p>
@@ -25,7 +25,7 @@
   <p class="small"><a href="#">Forgot password?</a></p>
 </section>
 
-<!-- ============== SIGN UP ============== -->
+<!-- SIGN UP -->
 <section class="screen" data-screen="signup">
   <div class="header">
     <button onclick="show('signin')">Back</button>
@@ -40,7 +40,7 @@
   <button class="btn-block" onclick="show('locationpicker');toast('Account created')">Create account</button>
 </section>
 
-<!-- ============== HOME ============== -->
+<!-- HOME -->
 <section class="screen" data-screen="home">
   <div class="header">
     <span class="title">SENDY — Home</span>
@@ -53,52 +53,212 @@
     <p class="small"><span id="routeCount">#</span> routes — tap to change</p>
   </div>
 
-  <div class="chips">
-    <button class="chip active">All</button>
-    <button class="chip">Most Recent</button>
-    <button class="chip">Grade</button>
-    <button class="chip">Wall</button>
-    <button class="chip">Tags</button>
-  </div>
+  <div class="filters" id="homeFilters">
+    <div class="chips">
+      <button class="chip active" data-filter="all">All</button>
+      <button class="chip" data-filter="sort">Most Recent ▾</button>
+      <button class="chip" data-filter="grade">Grade ▾</button>
+      <button class="chip" data-filter="wall">Wall ▾</button>
+      <button class="chip" data-filter="tags">Tags ▾</button>
+    </div>
 
-  <div class="card" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>Grade</span>
-        <button onclick="event.stopPropagation();this.textContent=this.textContent==='Save'?'Saved':'Save'">Save</button>
+    <div class="filter-panel" data-panel="sort" hidden>
+      <p class="small muted">Sort by</p>
+      <div class="filter-options" data-mode="single" data-key="sort">
+        <button class="opt active" data-value="recent">Most Recent</button>
+        <button class="opt" data-value="oldest">Oldest</button>
+        <button class="opt" data-value="rating">Highest Rated</button>
+        <button class="opt" data-value="sends">Most Sent</button>
       </div>
-      <p class="small muted">★ rating · # tips · @username</p>
+    </div>
+
+    <div class="filter-panel" data-panel="grade" hidden>
+      <p class="small muted">Grade (multi-select)</p>
+      <div class="filter-options grade-opts" data-mode="multi" data-key="grade" id="gradeFilterGrid"></div>
+      <div class="row">
+        <button onclick="clearFilter('grade')">Clear</button>
+        <button onclick="closeFilterPanel()">Done</button>
+      </div>
+    </div>
+
+    <div class="filter-panel" data-panel="wall" hidden>
+      <p class="small muted">Wall (multi-select)</p>
+      <div class="filter-options" data-mode="multi" data-key="wall">
+        <button class="opt" data-value="cave">Cave</button>
+        <button class="opt" data-value="slab">Slab</button>
+        <button class="opt" data-value="overhang">Overhang</button>
+        <button class="opt" data-value="vertical">Vertical</button>
+      </div>
+      <div class="row">
+        <button onclick="clearFilter('wall')">Clear</button>
+        <button onclick="closeFilterPanel()">Done</button>
+      </div>
+    </div>
+
+    <div class="filter-panel" data-panel="tags" hidden>
+      <p class="small muted">Tags (multi-select)</p>
+      <div class="filter-options" data-mode="multi" data-key="tags">
+        <button class="opt" data-value="crimpy">crimpy</button>
+        <button class="opt" data-value="dyno">dyno</button>
+        <button class="opt" data-value="sloper">sloper</button>
+        <button class="opt" data-value="jugs">jugs</button>
+        <button class="opt" data-value="technical">technical</button>
+      </div>
+      <div class="row">
+        <button onclick="clearFilter('tags')">Clear</button>
+        <button onclick="closeFilterPanel()">Done</button>
+      </div>
     </div>
   </div>
 
-  <div class="card" onclick="show('route')">
+  <div class="card" data-gym="BRIC" data-grade="V4" data-wall="overhang" data-tags="dyno,technical" data-rating="4" onclick="show('route')">
     <div class="img">[ photo ]</div>
     <div class="body">
       <div class="row-tight">
         <strong class="grow">Route name</strong>
-        <span>Grade</span>
-        <button onclick="event.stopPropagation();this.textContent=this.textContent==='Save'?'Saved':'Save'">Save</button>
+        <span>V4</span>
       </div>
-      <p class="small muted">★ rating · # tips · @username</p>
+      <p class="small muted">BRIC · 4/5 · # tips · @user1</p>
+      <p class="small">overhang · dyno · technical</p>
     </div>
   </div>
 
-  <div class="card" onclick="show('route')">
+  <div class="card" data-gym="BRIC" data-grade="V3" data-wall="vertical" data-tags="crimpy,technical" data-rating="3" onclick="show('route')">
     <div class="img">[ photo ]</div>
     <div class="body">
       <div class="row-tight">
         <strong class="grow">Route name</strong>
-        <span>Grade</span>
-        <button onclick="event.stopPropagation();this.textContent=this.textContent==='Save'?'Saved':'Save'">Save</button>
+        <span>V3</span>
       </div>
-      <p class="small muted">★ rating · # tips · @username</p>
+      <p class="small muted">BRIC · 3/5 · # tips · @user2</p>
+      <p class="small">vertical · crimpy · technical</p>
+    </div>
+  </div>
+
+  <div class="card" data-gym="Hangar 18" data-grade="V5" data-wall="slab" data-tags="" data-rating="0" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V5</span>
+      </div>
+      <p class="small muted">Hangar 18 · ?/5 · # tips · @user3</p>
+      <p class="small">slab</p>
+    </div>
+  </div>
+
+  <!-- BRIC extra routes -->
+  <div class="card" data-gym="BRIC" data-grade="V6" data-wall="cave" data-tags="sloper,technical" data-rating="5" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V6</span>
+      </div>
+      <p class="small muted">BRIC · 5/5 · # tips · @user4</p>
+      <p class="small">cave · sloper · technical</p>
+    </div>
+  </div>
+
+  <div class="card" data-gym="BRIC" data-grade="V2" data-wall="slab" data-tags="jugs" data-rating="4" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V2</span>
+      </div>
+      <p class="small muted">BRIC · 4/5 · # tips · @user5</p>
+      <p class="small">slab · jugs</p>
+    </div>
+  </div>
+
+  <div class="card" data-gym="BRIC" data-grade="V1" data-wall="vertical" data-tags="crimpy" data-rating="3" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V1</span>
+      </div>
+      <p class="small muted">BRIC · 3/5 · # tips · @user6</p>
+      <p class="small">vertical · crimpy</p>
+    </div>
+  </div>
+
+  <div class="card" data-gym="BRIC" data-grade="V8" data-wall="overhang" data-tags="dyno,jugs" data-rating="4" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V8</span>
+      </div>
+      <p class="small muted">BRIC · 4/5 · # tips · @user7</p>
+      <p class="small">overhang · dyno · jugs</p>
+    </div>
+  </div>
+
+  <!-- Hangar 18 extra routes -->
+  <div class="card" data-gym="Hangar 18" data-grade="V7" data-wall="overhang" data-tags="dyno,sloper" data-rating="5" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V7</span>
+      </div>
+      <p class="small muted">Hangar 18 · 5/5 · # tips · @user8</p>
+      <p class="small">overhang · dyno · sloper</p>
+    </div>
+  </div>
+
+  <div class="card" data-gym="Hangar 18" data-grade="V3" data-wall="vertical" data-tags="crimpy,technical" data-rating="4" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V3</span>
+      </div>
+      <p class="small muted">Hangar 18 · 4/5 · # tips · @user9</p>
+      <p class="small">vertical · crimpy · technical</p>
+    </div>
+  </div>
+
+  <div class="card" data-gym="Hangar 18" data-grade="V2" data-wall="cave" data-tags="jugs" data-rating="3" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V2</span>
+      </div>
+      <p class="small muted">Hangar 18 · 3/5 · # tips · @user10</p>
+      <p class="small">cave · jugs</p>
+    </div>
+  </div>
+
+  <div class="card" data-gym="Hangar 18" data-grade="V9" data-wall="slab" data-tags="technical" data-rating="5" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V9</span>
+      </div>
+      <p class="small muted">Hangar 18 · 5/5 · # tips · @user11</p>
+      <p class="small">slab · technical</p>
+    </div>
+  </div>
+
+  <div class="card" data-gym="Hangar 18" data-grade="V4" data-wall="overhang" data-tags="dyno" data-rating="4" onclick="show('route')">
+    <div class="img">[ photo ]</div>
+    <div class="body">
+      <div class="row-tight">
+        <strong class="grow">Route name</strong>
+        <span>V4</span>
+      </div>
+      <p class="small muted">Hangar 18 · 4/5 · # tips · @user12</p>
+      <p class="small">overhang · dyno</p>
     </div>
   </div>
 </section>
 
-<!-- ============== LOCATION PICKER ============== -->
+<!-- LOCATION PICKER -->
 <section class="screen" data-screen="locationpicker">
   <div class="header">
     <button onclick="show('home')">Close</button>
@@ -109,25 +269,21 @@
 
   <h3>Recent</h3>
   <div class="list">
-    <div class="item" onclick="setGym('Gym name',0)">
-      <div class="grow"><strong>Gym name</strong><div class="small muted">[address] — [distance]</div></div>
+    <div class="item" onclick="setGym('BRIC')">
+      <div class="grow"><strong>BRIC</strong><div class="small muted">Cal Poly Pomona — [distance]</div></div>
     </div>
-    <div class="item" onclick="setGym('Gym name',0)">
-      <div class="grow"><strong>Gym name</strong><div class="small muted">[address] — [distance]</div></div>
-    </div>
-    <div class="item" onclick="setGym('Gym name',0)">
-      <div class="grow"><strong>Gym name</strong><div class="small muted">[address] — [distance]</div></div>
+    <div class="item" onclick="setGym('Hangar 18')">
+      <div class="grow"><strong>Hangar 18</strong><div class="small muted">Los Angeles — [distance]</div></div>
     </div>
   </div>
 </section>
 
 
-<!-- ============== ROUTE DETAIL ============== -->
+<!-- ROUTE DETAIL -->
 <section class="screen" data-screen="route">
   <div class="header">
     <button onclick="show('home')">Back</button>
     <span class="title">Route</span>
-    <button onclick="toast('Saved')">Save</button>
     <button onclick="toast('Shared')">Share</button>
   </div>
 
@@ -135,7 +291,7 @@
 
   <h2>Route name</h2>
   <p class="small">Grade · Gym name · posted [time] ago</p>
-  <p class="small">★ rating · # sends · # tips</p>
+  <p class="small">rating/5 · # tips</p>
 
   <hr>
   <p><strong>@username</strong> <span class="muted small">posted this beta</span></p>
@@ -163,45 +319,9 @@
     <textarea maxlength="500" placeholder="Share your beta…"></textarea>
   </label>
   <button>Post tip</button>
-
-  <div class="pinned">
-    <button class="btn-block" onclick="startSession()">▶ Start Climb Session</button>
-  </div>
 </section>
 
-<!-- ============== CLIMB SESSION ============== -->
-<section class="screen" data-screen="session">
-  <div class="header">
-    <button onclick="endSessionPrompt()">Close</button>
-    <span class="title">Session</span>
-  </div>
-
-  <p class="live" style="text-align:center">● LIVE — in progress</p>
-  <div class="timer" id="timer">00:00:00</div>
-  <p style="text-align:center" class="small">Route name · Grade · Gym name</p>
-
-  <div class="stat-grid">
-    <div class="box"><div class="num" id="attempts">0</div><div class="small">Attempts</div></div>
-    <div class="box"><div class="num" id="sends">0</div><div class="small">Sends</div></div>
-    <div class="box"><div class="num" id="best">—</div><div class="small">Best try</div></div>
-  </div>
-
-  <div class="row">
-    <button onclick="logAttempt()">+ Log attempt</button>
-    <button onclick="markSend()">✓ Mark send</button>
-  </div>
-
-  <label>Session notes
-    <textarea placeholder="Beta, conditions…"></textarea>
-  </label>
-  <p class="small muted">Autosaves every 5 seconds</p>
-
-  <div class="pinned">
-    <button class="btn-block" onclick="endSessionPrompt()">End session</button>
-  </div>
-</section>
-
-<!-- ============== CREATE POST ============== -->
+<!-- CREATE POST -->
 <section class="screen" data-screen="create">
   <div class="header">
     <button onclick="cancelCreate()">Cancel</button>
@@ -238,7 +358,7 @@
   </label>
 </section>
 
-<!-- ============== POST CONFIRMATION ============== -->
+<!-- POST CONFIRMATION -->
 <section class="screen" data-screen="confirm">
   <div style="text-align:center;padding:24px 0">
     <h1>✓ Posted!</h1>
@@ -257,17 +377,34 @@
   </div>
 </section>
 
-<!-- ============== SEARCH ============== -->
+<!-- SEARCH -->
 <section class="screen" data-screen="search">
   <div class="header">
     <span class="title">Search</span>
   </div>
   <input type="search" placeholder="Routes, gyms, tags…">
-  <div class="chips">
-    <button class="chip active">All</button>
-    <button class="chip">Routes</button>
-    <button class="chip">Gyms</button>
-    <button class="chip">Tags</button>
+  <div class="filters" id="searchFilters">
+    <div class="chips">
+      <button class="chip active" data-scope="all">All</button>
+      <button class="chip" data-scope="routes">Routes</button>
+      <button class="chip" data-scope="gyms">Gyms</button>
+      <button class="chip" data-scope="tags">Tags ▾</button>
+    </div>
+
+    <div class="filter-panel" data-panel="tags" hidden>
+      <p class="small muted">Filter by tag</p>
+      <div class="filter-options" data-mode="multi" data-key="searchTags">
+        <button class="opt" data-value="crimpy">crimpy</button>
+        <button class="opt" data-value="dyno">dyno</button>
+        <button class="opt" data-value="sloper">sloper</button>
+        <button class="opt" data-value="jugs">jugs</button>
+        <button class="opt" data-value="technical">technical</button>
+      </div>
+      <div class="row">
+        <button onclick="clearFilter('searchTags')">Clear</button>
+        <button onclick="closeFilterPanel()">Done</button>
+      </div>
+    </div>
   </div>
   <h3>Recent</h3>
   <div class="list">
@@ -282,26 +419,7 @@
   </div>
 </section>
 
-<!-- ============== SAVED ============== -->
-<section class="screen" data-screen="saved">
-  <div class="header"><span class="title">Saved</span></div>
-  <div class="card" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <strong>Route name</strong> — Grade
-      <p class="small muted">★ rating · # tips · @username</p>
-    </div>
-  </div>
-  <div class="card" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <strong>Route name</strong> — Grade
-      <p class="small muted">★ rating · # tips · @username</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============== PROFILE ============== -->
+<!-- PROFILE -->
 <section class="screen" data-screen="profile">
   <div class="header">
     <span class="title">Profile</span>
@@ -310,32 +428,20 @@
   <div class="box">
     <h2>Last name, First name</h2>
     <p class="small">@guest · Gym name</p>
-    <p class="small"># sessions · # sends · # posts</p>
-  </div>
-
-  <div class="chips">
-    <button class="chip active">Sessions</button>
-    <button class="chip">Posts</button>
-    <button class="chip">Saved</button>
+    <p class="small"># posts</p>
   </div>
 
   <div class="list">
     <div class="item">
       <div class="grow">
-        <strong>Route name · Grade</strong> [SENT]
-        <div class="small muted">[date] · # attempts · # sends · [duration]</div>
+        <strong>Route name · Grade</strong>
+        <div class="small muted">[date] · posted by @username</div>
       </div>
     </div>
     <div class="item">
       <div class="grow">
         <strong>Route name · Grade</strong>
-        <div class="small muted">[date] · # attempts · # sends · [duration]</div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="grow">
-        <strong>Route name · Grade</strong> [SENT]
-        <div class="small muted">[date] · # attempts · # sends · [duration]</div>
+        <div class="small muted">[date] · posted by @username</div>
       </div>
     </div>
   </div>
@@ -349,7 +455,6 @@
   <button data-tab="home" class="active" onclick="show('home')">Home</button>
   <button data-tab="search" onclick="show('search')">Search</button>
   <button onclick="show('create')">+ Create</button>
-  <button data-tab="saved" onclick="show('saved')">Saved</button>
   <button data-tab="profile" onclick="show('profile')">Profile</button>
 </nav>
 
