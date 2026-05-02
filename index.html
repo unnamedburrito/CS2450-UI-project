@@ -3,54 +3,61 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>SENDY — Wireframe</title>
+<title>SENDY</title>
+<meta name="color-scheme" content="dark">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <!-- SIGN IN -->
-<section class="screen active" data-screen="signin">
-  <h1>SENDY</h1>
-  <p class="muted">Sign In</p>
+<section class="screen active" data-screen="signin" role="main" aria-label="Sign in">
+  <div class="header" style="border-bottom: none; margin: 0; padding: 0">
+    <h1>SENDY</h1>
+    <img src="sendy.png" alt="Sendy Logo" width="30" height="30">
+  </div>
+  <p class="muted">Stop guessing. Start sending.</p>
   <hr>
-  <label>Email or username
-    <input type="text">
+  <label for="signin-email">Email or username
+    <input id="signin-email" type="text" autocomplete="username" placeholder="you@example.com">
   </label>
-  <label>Password
-    <input type="password">
+  <label for="signin-password">Password
+    <input id="signin-password" type="password" autocomplete="current-password" placeholder="••••••••">
   </label>
   <button class="btn-block" onclick="show('home');toast('Signed in')">Sign In</button>
-  <button class="btn-block" onclick="show('signup')">Create account</button>
-  <button class="btn-block" onclick="show('home');toast('Guest mode')">Continue as guest</button>
-  <p class="small"><a href="#">Forgot password?</a></p>
+  <button class="btn-block" onclick="show('signup')" style="background:var(--panel);border-color:var(--panel-border);color:var(--text);">Create account</button>
+  <button class="btn-block" onclick="show('home');toast('Guest mode')" style="background:transparent;border-color:var(--panel-border);color:var(--text-muted);">Continue as guest</button>
+  <p class="small" style="margin-top:10px"><a href="#">Forgot password?</a></p>
 </section>
 
 <!-- SIGN UP -->
-<section class="screen" data-screen="signup">
+<section class="screen" data-screen="signup" role="main" aria-label="Create account">
   <div class="header">
-    <button onclick="show('signin')">Back</button>
-    <span class="title">Sign Up</span>
+    <button onclick="show('signin')" aria-label="Back to sign in">← Back</button>
+    <span class="title">Create Account</span>
   </div>
-  <label>Email <input type="email"></label>
-  <label>Username <input type="text"></label>
-  <p class="small muted">3–24 chars, lowercase, digits, underscores</p>
-  <label>Password <input type="password"></label>
-  <p class="small muted">≥ 8 chars, at least one letter and one digit</p>
-  <label>Confirm password <input type="password"></label>
-  <button class="btn-block" onclick="show('locationpicker');toast('Account created')">Create account</button>
+  <label for="su-email">Email <input id="su-email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+  <label for="su-username">Username <input id="su-username" type="text" autocomplete="username" placeholder="climber_42"></label>
+  <p class="small muted" role="note">3–24 chars, lowercase, digits, underscores</p>
+  <label for="su-password">Password <input id="su-password" type="password" autocomplete="new-password" placeholder="Min 8 characters"></label>
+  <p class="small muted" role="note">≥ 8 chars, at least one letter and one digit</p>
+  <label for="su-confirm">Confirm password <input id="su-confirm" type="password" autocomplete="new-password" placeholder="Repeat password"></label>
+  <button class="btn-block" onclick="show('locationpicker');toast('Account created')">Create Account</button>
 </section>
 
 <!-- HOME -->
 <section class="screen" data-screen="home">
   <div class="header">
-    <span class="title">SENDY — Home</span>
-    <button onclick="show('search')">Search</button>
+    <span class="grow" style="display: flex; align-items: center; gap: 5px;">
+      <span class="title" style="flex: none; background: linear-gradient(135deg, #fff 30%, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SENDY</span>
+      <img src="sendy.png" width="13" height="13">
+    </span>
+    <button onclick="show('search')" aria-label="Search">Search</button>
   </div>
 
-  <div class="box" onclick="show('locationpicker')" style="cursor:pointer">
-    <p class="small">Current Gym (filter active)</p>
+  <div class="box" onclick="show('locationpicker')" style="cursor:pointer" role="button" tabindex="0" aria-label="Change gym" onkeydown="if(event.key==='Enter'||event.key===' ')show('locationpicker')">
+    <p class="small muted" style="margin-bottom:2px">Current Gym</p>
     <h2 id="gymName">Gym name</h2>
-    <p class="small"><span id="routeCount">#</span> routes — tap to change</p>
+    <p class="small" style="color:var(--blue-hover)"><span id="routeCount">#</span> routes &nbsp;›</p>
   </div>
 
   <div class="filters" id="homeFilters">
@@ -111,169 +118,28 @@
     </div>
   </div>
 
-  <div class="card" data-gym="BRIC" data-grade="V4" data-wall="overhang" data-tags="dyno,technical" data-rating="4" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V4</span>
-      </div>
-      <p class="small muted">BRIC · 4/5 · # tips · @user1</p>
-      <p class="small">overhang · dyno · technical</p>
-    </div>
-  </div>
+  <div id="card-container"><!-- rendered by JS --></div>
 
-  <div class="card" data-gym="BRIC" data-grade="V3" data-wall="vertical" data-tags="crimpy,technical" data-rating="3" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V3</span>
-      </div>
-      <p class="small muted">BRIC · 3/5 · # tips · @user2</p>
-      <p class="small">vertical · crimpy · technical</p>
-    </div>
-  </div>
-
-  <div class="card" data-gym="Hangar 18" data-grade="V5" data-wall="slab" data-tags="" data-rating="0" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V5</span>
-      </div>
-      <p class="small muted">Hangar 18 · ?/5 · # tips · @user3</p>
-      <p class="small">slab</p>
-    </div>
-  </div>
-
-  <!-- BRIC extra routes -->
-  <div class="card" data-gym="BRIC" data-grade="V6" data-wall="cave" data-tags="sloper,technical" data-rating="5" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V6</span>
-      </div>
-      <p class="small muted">BRIC · 5/5 · # tips · @user4</p>
-      <p class="small">cave · sloper · technical</p>
-    </div>
-  </div>
-
-  <div class="card" data-gym="BRIC" data-grade="V2" data-wall="slab" data-tags="jugs" data-rating="4" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V2</span>
-      </div>
-      <p class="small muted">BRIC · 4/5 · # tips · @user5</p>
-      <p class="small">slab · jugs</p>
-    </div>
-  </div>
-
-  <div class="card" data-gym="BRIC" data-grade="V1" data-wall="vertical" data-tags="crimpy" data-rating="3" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V1</span>
-      </div>
-      <p class="small muted">BRIC · 3/5 · # tips · @user6</p>
-      <p class="small">vertical · crimpy</p>
-    </div>
-  </div>
-
-  <div class="card" data-gym="BRIC" data-grade="V8" data-wall="overhang" data-tags="dyno,jugs" data-rating="4" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V8</span>
-      </div>
-      <p class="small muted">BRIC · 4/5 · # tips · @user7</p>
-      <p class="small">overhang · dyno · jugs</p>
-    </div>
-  </div>
-
-  <!-- Hangar 18 extra routes -->
-  <div class="card" data-gym="Hangar 18" data-grade="V7" data-wall="overhang" data-tags="dyno,sloper" data-rating="5" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V7</span>
-      </div>
-      <p class="small muted">Hangar 18 · 5/5 · # tips · @user8</p>
-      <p class="small">overhang · dyno · sloper</p>
-    </div>
-  </div>
-
-  <div class="card" data-gym="Hangar 18" data-grade="V3" data-wall="vertical" data-tags="crimpy,technical" data-rating="4" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V3</span>
-      </div>
-      <p class="small muted">Hangar 18 · 4/5 · # tips · @user9</p>
-      <p class="small">vertical · crimpy · technical</p>
-    </div>
-  </div>
-
-  <div class="card" data-gym="Hangar 18" data-grade="V2" data-wall="cave" data-tags="jugs" data-rating="3" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V2</span>
-      </div>
-      <p class="small muted">Hangar 18 · 3/5 · # tips · @user10</p>
-      <p class="small">cave · jugs</p>
-    </div>
-  </div>
-
-  <div class="card" data-gym="Hangar 18" data-grade="V9" data-wall="slab" data-tags="technical" data-rating="5" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V9</span>
-      </div>
-      <p class="small muted">Hangar 18 · 5/5 · # tips · @user11</p>
-      <p class="small">slab · technical</p>
-    </div>
-  </div>
-
-  <div class="card" data-gym="Hangar 18" data-grade="V4" data-wall="overhang" data-tags="dyno" data-rating="4" onclick="show('route')">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <div class="row-tight">
-        <strong class="grow">Route name</strong>
-        <span>V4</span>
-      </div>
-      <p class="small muted">Hangar 18 · 4/5 · # tips · @user12</p>
-      <p class="small">overhang · dyno</p>
-    </div>
-  </div>
 </section>
 
 <!-- LOCATION PICKER -->
 <section class="screen" data-screen="locationpicker">
   <div class="header">
-    <button onclick="show('home')">Close</button>
+    <button onclick="show('home')" aria-label="Close">✕</button>
     <span class="title">Choose Gym</span>
   </div>
-  <input type="search" placeholder="Search gyms by name or address">
+  <input type="search" placeholder="Search gyms by name or address" aria-label="Search gyms">
   <button class="btn-block" onclick="toast('Requesting location…')">Use my location</button>
 
   <h3>Recent</h3>
-  <div class="list">
-    <div class="item" onclick="setGym('BRIC')">
+  <div class="list" role="list" aria-label="Recent gyms">
+    <div class="item" role="listitem" onclick="setGym('BRIC')" tabindex="0" aria-label="Select BRIC gym">
       <div class="grow"><strong>BRIC</strong><div class="small muted">Cal Poly Pomona — [distance]</div></div>
+      <span style="color:var(--text-dim);font-size:18px">›</span>
     </div>
-    <div class="item" onclick="setGym('Hangar 18')">
+    <div class="item" role="listitem" onclick="setGym('Hangar 18')" tabindex="0" aria-label="Select Hangar 18 gym">
       <div class="grow"><strong>Hangar 18</strong><div class="small muted">Los Angeles — [distance]</div></div>
+      <span style="color:var(--text-dim);font-size:18px">›</span>
     </div>
   </div>
 </section>
@@ -282,31 +148,25 @@
 <!-- ROUTE DETAIL -->
 <section class="screen" data-screen="route">
   <div class="header">
-    <button onclick="show('home')">Back</button>
-    <span class="title">Route</span>
-    <button onclick="toast('Shared')">Share</button>
+    <button onclick="show('home')" aria-label="Back to home">← Back</button>
+    <span class="title" id="route-header-title">Route</span>
+    <button onclick="toast('Shared')" aria-label="Share this route">Share ↗</button>
   </div>
 
-  <div class="img img-lg">[ photo carousel ]</div>
+  <div class="img img-lg" id="route-photo">[ photo ]</div>
 
-  <h2>Route name</h2>
-  <p class="small">Grade · Gym name · posted [time] ago</p>
-  <p class="small">rating/5 · # tips</p>
+  <h2 id="route-name">Route name</h2>
+  <p class="small" id="route-meta">Grade · Gym name · posted [time] ago</p>
+  <p class="small" id="route-rating">rating/5 · # tips</p>
 
   <hr>
-  <p><strong>@username</strong> <span class="muted small">posted this beta</span></p>
+  <p><strong id="route-user">@username</strong> <span class="muted small">posted this beta</span></p>
 
   <h3>Notes</h3>
-  <p>[ Author notes about the route — beta, sequence, conditions. ]</p>
+  <p id="route-notes">[ Author notes about the route — beta, sequence, conditions. ]</p>
 
-  <h3>Tips (#)</h3>
-  <div class="list">
-    <div class="item">
-      <div class="grow">
-        <strong>@username</strong> <span class="muted small">[time]</span>
-        <p class="small">[ Tip text. ]</p>
-      </div>
-    </div>
+  <h3 id="route-tips-heading">Tips</h3>
+  <div class="list" id="route-tips-list">
     <div class="item">
       <div class="grow">
         <strong>@username</strong> <span class="muted small">[time]</span>
@@ -316,17 +176,17 @@
   </div>
 
   <label>Add a tip
-    <textarea maxlength="500" placeholder="Share your beta…"></textarea>
+    <textarea id="route-tip-input" maxlength="500" placeholder="Share your beta…"></textarea>
   </label>
-  <button>Post tip</button>
+  <button onclick="postTip()">Post tip</button>
 </section>
 
 <!-- CREATE POST -->
 <section class="screen" data-screen="create">
   <div class="header">
-    <button onclick="cancelCreate()">Cancel</button>
+    <button onclick="cancelCreate()" aria-label="Cancel">✕ Cancel</button>
     <span class="title">New Route</span>
-    <button id="postBtn" disabled onclick="show('confirm')">Post</button>
+    <button id="postBtn" disabled onclick="submitPost()">Post</button>
   </div>
 
   <h3>Photos (1–6 required)</h3>
@@ -335,26 +195,28 @@
   </div>
 
   <label>Route name
-    <input id="rname" type="text" maxlength="60" oninput="validateCreate()">
+    <input id="rname" type="text" maxlength="60" oninput="validateCreate()" placeholder="e.g. Monkey Bars">
   </label>
 
   <h3>Difficulty (select one)</h3>
   <div class="grade-grid" id="gradeGrid"></div>
 
   <label>Wall (optional)
-    <select>
-      <option>Choose…</option>
-      <option>Cave</option><option>Slab</option>
-      <option>Overhang</option><option>Vertical</option>
+    <select id="rwall">
+      <option value="">Choose…</option>
+      <option value="cave">Cave</option>
+      <option value="slab">Slab</option>
+      <option value="overhang">Overhang</option>
+      <option value="vertical">Vertical</option>
     </select>
   </label>
 
-  <label>Tags (up to 5)
-    <input type="text" placeholder="crimpy, dyno, sloper">
+  <label>Tags (up to 5, comma-separated)
+    <input id="rtags" type="text" placeholder="crimpy, dyno, sloper">
   </label>
 
   <label>Notes
-    <textarea maxlength="2000"></textarea>
+    <textarea id="rnotes" maxlength="2000" placeholder="Describe the sequence, beta, conditions…"></textarea>
   </label>
 </section>
 
@@ -364,16 +226,10 @@
     <h1>✓ Posted!</h1>
     <p>Your route is live in the gym feed.</p>
   </div>
-  <div class="card">
-    <div class="img">[ photo ]</div>
-    <div class="body">
-      <strong>Route name</strong>
-      <p class="small muted">Grade · Gym name · 0 tips</p>
-    </div>
-  </div>
+  <div id="confirm-card"><!-- populated by submitPost() --></div>
   <div class="row">
-    <button onclick="show('home')">Back to feed</button>
-    <button onclick="show('route')">View post</button>
+    <button onclick="show('home')" style="background:var(--panel);border-color:var(--panel-border);color:var(--text);">Back to feed</button>
+    <button onclick="viewNewRoute()">View post</button>
   </div>
 </section>
 
@@ -382,7 +238,7 @@
   <div class="header">
     <span class="title">Search</span>
   </div>
-  <input type="search" placeholder="Routes, gyms, tags…">
+  <input id="search-input" type="search" placeholder="Routes, gyms, tags…" oninput="runSearch()" autocomplete="off">
   <div class="filters" id="searchFilters">
     <div class="chips">
       <button class="chip active" data-scope="all">All</button>
@@ -406,16 +262,10 @@
       </div>
     </div>
   </div>
-  <h3>Recent</h3>
-  <div class="list">
-    <div class="item">[ recent search ]</div>
-    <div class="item">[ recent search ]</div>
-    <div class="item">[ recent search ]</div>
-  </div>
-  <h3>Trending</h3>
-  <div class="list">
-    <div class="item" onclick="show('route')"><div class="grow"><strong>Route name</strong><div class="small muted">Grade · Gym name</div></div></div>
-    <div class="item" onclick="show('route')"><div class="grow"><strong>Route name</strong><div class="small muted">Grade · Gym name</div></div></div>
+
+  <div id="search-results">
+    <h3>Trending</h3>
+    <div class="list" id="search-trending"><!-- populated by renderTrending() --></div>
   </div>
 </section>
 
@@ -426,36 +276,34 @@
     <button>Settings</button>
   </div>
   <div class="box">
-    <h2>Last name, First name</h2>
-    <p class="small">@guest · Gym name</p>
-    <p class="small"># posts</p>
+    <h2>Guest Climber</h2>
+    <p class="small" id="profile-gym">@you · Gym name</p>
+    <p class="small" id="profile-post-count"># posts</p>
   </div>
 
-  <div class="list">
-    <div class="item">
-      <div class="grow">
-        <strong>Route name · Grade</strong>
-        <div class="small muted">[date] · posted by @username</div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="grow">
-        <strong>Route name · Grade</strong>
-        <div class="small muted">[date] · posted by @username</div>
-      </div>
-    </div>
+  <h3 style="margin-top:14px">My Routes</h3>
+  <div class="list" id="profile-list">
+    <!-- populated by renderProfile() -->
   </div>
 </section>
 
 <!-- Toast -->
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <!-- Tab bar -->
-<nav class="tabbar" id="tabbar">
-  <button data-tab="home" class="active" onclick="show('home')">Home</button>
-  <button data-tab="search" onclick="show('search')">Search</button>
-  <button onclick="show('create')">+ Create</button>
-  <button data-tab="profile" onclick="show('profile')">Profile</button>
+<nav class="tabbar" id="tabbar" aria-label="Main navigation">
+  <button data-tab="home" class="active" onclick="show('home')" aria-current="page">
+    <span aria-hidden="true" style="font-size: 2em">⌂</span> Home
+  </button>
+  <button data-tab="search" onclick="show('search')" aria-label="Search routes">
+    <span aria-hidden="true" style="font-size: 2em">⌕</span> Search
+  </button>
+  <button data-tab="create" onclick="show('create')" aria-label="Create new route">
+    <span aria-hidden="true" style="font-size: 2em">＋</span> Create
+  </button>
+  <button data-tab="profile" onclick="show('profile')" aria-label="Your profile">
+    <span aria-hidden="true" style="font-size: 2em">◎</span> Profile
+  </button>
 </nav>
 
 <script src="app.js"></script>
