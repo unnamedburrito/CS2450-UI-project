@@ -555,3 +555,19 @@ label > input, label > textarea, label > select { margin-top: 4px; }
   outline: 2px solid var(--blue);
   outline-offset: 2px;
 }
+
+/* ─── Grade Badge & Tag Row (dynamic cards) ──────────────── */
+.grade-badge {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  background: var(--blue-subtle);
+  border: 1px solid rgba(59,130,246,0.20);
+  color: #93c5fd;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+.tag-row { color: var(--text-muted); margin-top: 3px; }
+body.light .grade-badge { background: #dbeafe; border-color: #bfdbfe; color: #1d4ed8; }
